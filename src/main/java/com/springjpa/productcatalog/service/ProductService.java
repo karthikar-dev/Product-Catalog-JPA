@@ -9,19 +9,17 @@ import java.util.List;
 
 @Service
 public class ProductService {
-    @Autowired
-    private ProductRepository productRepository;
 
+    @Autowired
+    private ProductRepository productRepository; // Injecting ProductRepository for data access
+
+    // Method to retrieve all products from the repository
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
-    public List<Product> getProductsByCategory(String category) {
-        return productRepository.findByCategory(category);
-    }
-
+    // Method to add a new product to the repository
     public Product addProduct(Product product) {
         return productRepository.save(product);
     }
-
 }

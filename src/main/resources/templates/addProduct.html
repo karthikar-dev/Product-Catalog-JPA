@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Add Product</title>
     <!-- Bootstrap CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -11,23 +11,44 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="mt-5 mb-4">Add Product <a class="btn btn-secondary mt-3 float-right" href="/displayProducts">Display Products</a></h1>
+    <!-- Title -->
+    <h1 class="mt-5 mb-4">Product Information <a class="btn btn-secondary mt-3 float-right" href="/displayProducts">Display
+        Products</a></h1>
 
-    <form action="/addProduct" method="post">
+    <!-- Product Form -->
+    <form id="productForm" method="post">
+        <!-- Name Input -->
         <div class="form-group">
             <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
+            <input class="form-control" id="name" name="name" required type="text">
         </div>
+        <!-- Price Input -->
         <div class="form-group">
             <label for="price">Price:</label>
-            <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+            <input class="form-control" id="price" name="price" required step="0.01" type="number">
         </div>
+        <!-- Category Input -->
         <div class="form-group">
             <label for="category">Category:</label>
-            <input type="text" class="form-control" id="category" name="category" required>
+            <input class="form-control" id="category" name="category" required type="text">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="/" class="btn btn-secondary">Cancel</a>
+
+        <!-- Success Message -->
+        <div class="alert alert-success d-none" id="successMessage" role="alert">
+            Product added successfully!
+        </div>
+
+        <!-- Error Message -->
+        <div class="alert alert-danger d-none" id="errorMessage" role="alert">
+            Error occurred while adding the product. Please try again.
+        </div>
+
+        <!-- Submit Button -->
+        <button class="btn btn-primary" type="button" onclick="submitForm()">Submit</button>
+        <!-- Clear Button -->
+        <button class="btn btn-danger" type="button" onclick="clearForm()">Clear</button>
+        <!-- Cancel Button -->
+        <a class="btn btn-secondary" href="/">Cancel</a>
     </form>
 </div>
 
@@ -37,5 +58,49 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <!-- Material Design Bootstrap JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+
+<script>
+    // Function to show the success message
+    function showSuccessMessage() {
+        $('#successMessage').removeClass('d-none'); // Show the success message
+    }
+
+    // Function to hide the success message
+    function hideSuccessMessage() {
+        $('#successMessage').addClass('d-none'); // Hide the success message
+    }
+
+    // Function to show the error message
+    function showErrorMessage() {
+        $('#errorMessage').removeClass('d-none'); // Show the error message
+    }
+
+    // Function to hide the error message
+    function hideErrorMessage() {
+        $('#errorMessage').addClass('d-none'); // Hide the error message
+    }
+
+    // Function to submit the form asynchronously
+    function submitForm() {
+        var formData = $('#productForm').serialize(); // Serialize form data
+        $.post('/addProduct', formData)
+            .done(function () {
+                showSuccessMessage(); // Show success message
+                hideErrorMessage(); // Hide error message
+               // $('#productForm')[0].reset(); // Reset the form
+            })
+            .fail(function () {
+                showErrorMessage(); // Show error message
+                hideSuccessMessage(); // Hide success message
+            });
+    }
+
+    // Function to clear the form fields
+    function clearForm() {
+        $('#productForm')[0].reset(); // Reset the form
+        hideSuccessMessage(); // Hide success message
+        hideErrorMessage(); // Hide error message
+    }
+</script>
 </body>
 </html>

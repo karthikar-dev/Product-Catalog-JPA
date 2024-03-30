@@ -4,21 +4,22 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
-
 @Entity
 @Getter
 @Setter
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="`id`")
-    private Long id;
-    @Column(name="`name`")
-    private String name;
-    @Column(name="`category`")
-    private String category;
-    @Column(name="`price`")
-    private Double price;
+    @Column(name = "`id`")
+    private Long id; // Unique identifier for the product
+
+    @Column(name = "`name`")
+    private String name; // Name of the product
+
+    @Column(name = "`category`")
+    private String category; // Category to which the product belongs
+
+    @Column(name = "`price`")
+    private Double price; // Price of the product
 }
